@@ -10,10 +10,10 @@ session_start();
   <title>سافتویر محاسب</title>
   <link rel="icon" type="image/png" href="images/favicon.png?v=1">
   <link href="jQuery/css/custom-theme/jquery-ui-1.11.4.smoothness.css" type="text/css" rel="stylesheet">
-  <link href="ecalc.login.css" type="text/css" rel="stylesheet">
+  <link href="dhtml/css/ecalc.login.css" type="text/css" rel="stylesheet">
   <script src="jQuery/js/jquery-1.11.2.min.js"></script>
   <script src="jQuery/js/jquery-ui-1.11.2.min.js"></script>
-  <script src="ecalc.login.js"></script>
+  <script src="dhtml/js/ecalc.login.js"></script>
 </head>
 <body onload="$('#user').focus()">
 <div id="login-wrapper" dir="rtl">

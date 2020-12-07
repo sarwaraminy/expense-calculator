@@ -22,8 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$row = mysqli_fetch_assoc($result);
 		//set session
 		$_SESSION['user'] = '$user';
+		$_SESSION['tag'] = 'rpt';
 		//catching user id by Session
-        echo "<script>window.location = 'index.php';</script>"; //Use script tag and close also
+        echo "<script>window.location = 'ecalc_main.php';</script>"; //Use script tag and close also
 	}
 	else {
 		echo "ورود غیر موفقانه بود";
