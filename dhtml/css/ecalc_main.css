@@ -1,0 +1,13 @@
+
+.addExp {
+	direction:rtl;
+	margin:10px 10px 0px 5px;
+	height:auto;
+	width:auto;
+}
+#addItem {
+	direction:rtl;
+}
+.top{top:0px;}
+.right{right: 0px;}
+.left{left: 0px; float:left;}
