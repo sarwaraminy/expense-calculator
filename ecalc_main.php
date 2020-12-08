@@ -1,5 +1,6 @@
 <?php
 session_start(); //start session.
+
 $tag = $_SESSION['tag'];
 if(!isset($_SESSION['user']))
 {
@@ -11,6 +12,7 @@ if(!isset($_SESSION['user']))
 
 <?php 
 if($tag == 'rpt'){ goto rpt;}
+if($tag == 'addExp') { goto addExp;}
 ?>
 
 <?php rpt: ?>
@@ -38,6 +40,10 @@ if($tag == 'rpt'){ goto rpt;}
 	 $('#txtPrice').keyup(function() {
 		 $('#txtTotal').val($('#txtPrice').val() * $('#txtNumOf').val());
 	 });
+	 //handle the click of add records
+	 $('#eSave').click(function() {
+		 execAddRec();
+	 });
  });
  </script>
 </head>
@@ -46,6 +52,7 @@ if($tag == 'rpt'){ goto rpt;}
 	 
 <div class="addExp">   
   <div>
+  <form method="post" action="ecalc_main.php" onsubmit="return execAddRec();">
   <table id="addItem">
     <tr><td><h2>ازدیاد جنس</h2></td><td colspan="12"><div id="buttons" class="top left"><div id="LogOut">خروج</div></div></td></tr>
     <tr><td>اسم جنس</><td>توضیحات</td><td>نوع جنس</td><td>قیمت</td><td>تعداد جنس</td><td>قیمت مجموعی</td><td>مصرف توسط</td><td>تاریخ</td><td></td></tr>
@@ -73,9 +80,21 @@ if($tag == 'rpt'){ goto rpt;}
 	<tr><td colspan="10"><hr></td></tr>
 	<tr><td><h2>راپور مصارف</h2></td></tr>
   </table>
+  </form>
  </div>
 </div>
 
 </body>
 </html>
 <?php exit(); ?>
+
+<?php 
+addExp: 
+ $insQ = "insert into homespend(ID_NO,THINGS_NAME,DESCRIPTION,CATEGORY,PRICE,NUMBER_OF,TOTAL_PRICE,SPEND_BY,INSERTED_BY,INSERT_DATE)" .
+         "values(1,'".$_POST['aname']."','".$_POST['desc']."','".$_POST['type']."',".$_POST['price'].",".$_POST['numof'].",".
+		 $_POST['total'].",'".$_POST['spendby']."','".$_POST['sdate']."');";
+ $dbclas = new dbHandle();
+ $execQ = $dbclas -> excuteQuery($insQ);
+?>
+<div id="messages"></div>
+
