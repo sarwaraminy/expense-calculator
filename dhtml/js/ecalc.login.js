@@ -12,7 +12,6 @@
 			  type: 'POST',
 			  url: 'do_login.php',
 			  data: {
-				  do_login: "do_login",
 				  username:user,
 				  password:pass
 			  },

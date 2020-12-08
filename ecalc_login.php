@@ -21,7 +21,6 @@ session_start();
   <div id="input-wrapper">
     <div id="messages"></div>
     <div id="user-wrapper">
-	<form method="post" action="do_login.php" onsubmit="return do_login();">
       <label for="user">نام استفاده کننده:</label>
       <input autocomplete="off" name="user" id="user" type="text">
     </div>
@@ -37,7 +36,6 @@ session_start();
   </div>
   <div id="powered-by"><span>سپانسر توسط </span><a href="#"><b>Sarwar Amini</b></a></div>
 </div>
-</form>
 </body>
 </html>
 

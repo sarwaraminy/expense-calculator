@@ -2,6 +2,8 @@
 session_start(); //start session.
 
 $tag = $_SESSION['tag'];
+$tag2 = $_POST['tag'];
+echo "$tag $tag2";
 if(!isset($_SESSION['user']))
 {
     // not logged in
@@ -12,7 +14,7 @@ if(!isset($_SESSION['user']))
 
 <?php 
 if($tag == 'rpt'){ goto rpt;}
-if($tag == 'addExp') { goto addExp;}
+if($_POST['tag'] == 'addExp') { goto addExp;}
 ?>
 
 <?php rpt: ?>
@@ -52,7 +54,6 @@ if($tag == 'addExp') { goto addExp;}
 	 
 <div class="addExp">   
   <div>
-  <form method="post" action="ecalc_main.php" onsubmit="return execAddRec();">
   <table id="addItem">
     <tr><td><h2>ازدیاد جنس</h2></td><td colspan="12"><div id="buttons" class="top left"><div id="LogOut">خروج</div></div></td></tr>
     <tr><td>اسم جنس</><td>توضیحات</td><td>نوع جنس</td><td>قیمت</td><td>تعداد جنس</td><td>قیمت مجموعی</td><td>مصرف توسط</td><td>تاریخ</td><td></td></tr>
@@ -80,7 +81,6 @@ if($tag == 'addExp') { goto addExp;}
 	<tr><td colspan="10"><hr></td></tr>
 	<tr><td><h2>راپور مصارف</h2></td></tr>
   </table>
-  </form>
  </div>
 </div>
 
@@ -90,6 +90,7 @@ if($tag == 'addExp') { goto addExp;}
 
 <?php 
 addExp: 
+echo "now on insert .....";
  $insQ = "insert into homespend(ID_NO,THINGS_NAME,DESCRIPTION,CATEGORY,PRICE,NUMBER_OF,TOTAL_PRICE,SPEND_BY,INSERTED_BY,INSERT_DATE)" .
          "values(1,'".$_POST['aname']."','".$_POST['desc']."','".$_POST['type']."',".$_POST['price'].",".$_POST['numof'].",".
 		 $_POST['total'].",'".$_POST['spendby']."','".$_POST['sdate']."');";

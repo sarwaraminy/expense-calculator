@@ -17,12 +17,11 @@ function execAddRec(){
     var txtTotal = $('#txtTotal').val();
     var txtSpendBy   = $('#txtSpendBy').val();
     var txtDate  = $('#txtDate').val();
-		$('#messages').text('Authenticating...');
 		$.ajax ({
-		 type: 'POST',
-		 url: 'ecalc_main.php',
+		 type: 'post',
+		 url: './ecalc_main.php',
 		 data: {
-			 tag: addExp,
+			 tag: 'addExp',
 			 aname:txtAName,
 			 desc:arDesc,
 			 type: selType,
