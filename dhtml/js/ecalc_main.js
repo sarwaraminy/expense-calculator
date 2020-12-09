@@ -19,9 +19,9 @@ function execAddRec(){
     var txtDate  = $('#txtDate').val();
 		$.ajax ({
 		 type: 'post',
-		 url: './ecalc_main.php',
-		 data: {
-			 tag: 'addExp',
+		 url: 'ecalc_main.php',
+		 data: ({
+			 tag: "addExp",
 			 aname:txtAName,
 			 desc:arDesc,
 			 type: selType,
@@ -30,9 +30,10 @@ function execAddRec(){
 			 total: txtTotal,
 			 spendby: txtSpendBy,
 			 sdate: txtDate
-		 },
+		 }),
+		 cache: false,
 		 success: function(feedback){
 		  $('#messages').html(feedback);
 		 }
-	 });
+	 })
 }

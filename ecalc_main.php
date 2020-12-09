@@ -1,9 +1,6 @@
 <?php
 session_start(); //start session.
 
-$tag = $_SESSION['tag'];
-$tag2 = $_POST['tag'];
-echo "$tag $tag2";
 if(!isset($_SESSION['user']))
 {
     // not logged in
@@ -13,8 +10,8 @@ if(!isset($_SESSION['user']))
 ?>
 
 <?php 
-if($tag == 'rpt'){ goto rpt;}
-if($_POST['tag'] == 'addExp') { goto addExp;}
+if($_SESSION['user'] == 'rpt'){ goto rpt;}
+elseif($_POST['tag'] == 'addExp') { goto addExp;}
 ?>
 
 <?php rpt: ?>
@@ -51,7 +48,7 @@ if($_POST['tag'] == 'addExp') { goto addExp;}
 </head>
 
 <body>
-	 
+<div id="messages"></div>	 
 <div class="addExp">   
   <div>
   <table id="addItem">
@@ -90,12 +87,33 @@ if($_POST['tag'] == 'addExp') { goto addExp;}
 
 <?php 
 addExp: 
+include "ecalc_db.php";
 echo "now on insert .....";
- $insQ = "insert into homespend(ID_NO,THINGS_NAME,DESCRIPTION,CATEGORY,PRICE,NUMBER_OF,TOTAL_PRICE,SPEND_BY,INSERTED_BY,INSERT_DATE)" .
-         "values(1,'".$_POST['aname']."','".$_POST['desc']."','".$_POST['type']."',".$_POST['price'].",".$_POST['numof'].",".
-		 $_POST['total'].",'".$_POST['spendby']."','".$_POST['sdate']."');";
+$values = array(
+ array('val'=>'1'),
+ array('val'=>"'".$_POST['aname']."'"),
+ array('val'=>"'".$_POST['desc']."'"),
+ array('val'=>"'".$_POST['type']."'"),
+ array('val'=>"'".$_POST['price']."'"),
+ array('val'=>"'".$_POST['numof']."'"),
+ array('val'=>"'".$_POST['total']."'"),
+ array('val'=>"'".$_POST['spendby']."'"),
+ array('val'=>"'".$_POST['sdate']."'"),
+ array('type'=>'int'),
+ array('type'=>'char'),
+ array('type'=>'char'),
+ array('type'=>'char'),
+ array('type'=>'int'),
+ array('type'=>'int'),
+ array('type'=>'int'),
+ array('type'=>'char'),
+ array('type'=>'char')
+);
+ //$insQ = "1,'".$_POST['aname']."','".$_POST['desc']."','".$_POST['type']."',".$_POST['price'].",".$_POST['numof'].",".
+	//	 $_POST['total'].",'".$_POST['spendby']."','".$_POST['sdate']."'";
  $dbclas = new dbHandle();
- $execQ = $dbclas -> excuteQuery($insQ);
+ $execQ = $dbclas -> dbConnect();
+ $execQ = $dbclas -> insertInto("homespend",$values);
 ?>
 <div id="messages"></div>
 
