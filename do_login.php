@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if(mysqli_num_rows($result) > 0){
 		$row = mysqli_fetch_assoc($result);
 		//set session
-		$_SESSION['user'] = '$user';
+		$_SESSION['user'] = $user;
 		$_SESSION['tag'] = 'rpt';
 		//catching user id by Session
         echo "<script>window.location = 'ecalc_main.php';</script>"; //Use script tag and close also

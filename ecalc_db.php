@@ -61,38 +61,27 @@ class dbHandle extends Dbconfig {
 		return $this -> dataSet;
 	}
 	
-	function insertInto($tableName, $values){
-		$i=NULL;
+	function insertInto($tableName, $tblFles, $values){
 		
-		$this -> sqlQuery = 'INSERT INTO '.$tableName.' VALUES (';
-		$i=0;
-		while($values[$i]["val"] != NULL && $values[$i]["type"] != NULL){
-			if($values[$i]["type"] == "char"){
-				$this -> sqlQuery .= "'";
-				$this -> sqlQuery .=$values[$i]["val"];
-				$this -> sqlQuery .="'";
-			}
-			if($values[$i]["type"] == "int"){
-				$this -> sqlQuery .= $values[$i]["val"];
-			}
-			$i++;
-			if($values[$i]["val"] != NULL){
-				$this -> sqlQuery .=',';
-			}
-		}
-		$this -> sqlQuery .=')';
+		$this -> sqlQuery = 'INSERT INTO '.$tableName.'('.$tblFles.') VALUES '.$values.';';
 		   //echo $this -> sqlQuery;
-		mysqli_query($this -> conn, $this -> sqlQuery);
-		     return $this -> sqlQuery;
+		//mysqli_query($this -> conn, $this -> sqlQuery);
+		if (mysqli_query($this -> conn, $this -> sqlQuery)) {
+			$resp = 'یک ریکار موفقانه وارد گردید!';
+		}
+		else {
+			$resp = "Error: " . $this -> sqlQuery  . "<br>" . mysqli_error($this -> conn);
+		}
+		return $resp;
 	}
 	
 	function selectFreeRun($query){
-		$this -> dataSet = mysqli_query($this -> conn, $this -> sqlQuery);
+		$this -> dataSet = mysqli_query($this -> conn, $query);
 		return $this -> dataSet;
 	}
 	
 	function freeRun($query){
-		return mysqli_query($query, $this -> conn);
+		return mysqli_query($this -> conn, $query);
 	}
 }
 ?>

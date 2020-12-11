@@ -13,7 +13,8 @@
 			  url: 'do_login.php',
 			  data: {
 				  username:user,
-				  password:pass
+				  password:pass,
+				  tag: 'rpt'
 			  },
 			  success: function(feedback){
 				  $('#messages').html(feedback);
