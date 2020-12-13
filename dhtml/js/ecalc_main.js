@@ -35,5 +35,64 @@ function execAddRec(){
 		 success: function(feedback){
 		  $('#messages').html(feedback);
 		 }
-	 })
+	 });
 }
+
+//this function is used for opening a new dialog
+function showPrompt(){
+	
+		$.ajax ({
+		 type: 'post',
+		 url: 'ecalc_main.php',
+		 data: ({
+			 tag: "addNGrp",
+		 }),
+		 cache: false,
+		 success: function(feedback){
+		  NewGroupWindowDiv.html(feedback);
+		 }
+	 });
+	  NewGroupWindowDiv = $('#addNItem').dialog({
+			 autoOpen: false,
+             modal: true,
+             draggable: false,
+             resizable: false,
+             width: 350,
+             height: 260,
+             dialogClass: 'frd-dialog-titled centered',
+             title: 'ازدیاد کتگوری',
+             close: function() {
+				 $('#messages').text('');
+             }
+		 });
+	 NewGroupWindowDiv.dialog("open");
+}
+
+// add new category
+function addCtg(){
+	var txtCtg = $('#txtCtg').val();
+    var txtDateCtg  = $('#txtDateCtg').val();
+		$.ajax ({
+		 type: 'post',
+		 url: 'ecalc_main.php',
+		 data: ({
+			 tag: "insCtg",
+			 ctgName:txtCtg,
+			 sdate: txtDateCtg
+		 }),
+		 cache: false,
+		 success: function(feedback){
+		  $('#messages').html(feedback);
+		 }
+	 });
+}
+
+
+
+
+
+
+
+
+
+

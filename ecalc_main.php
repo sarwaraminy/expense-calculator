@@ -19,19 +19,15 @@ else{
 }
 if( $tag == 'rpt'){ goto rpt;}
 else if( $tag == 'addExp') { goto addExp;}
+else if( $tag == 'addNGrp') { goto addNGrp;}
+else if( $tag == 'insCtg') { goto insCtg;}
 ?>
 
 <?php rpt: ?>
 <!DOCTYPE html>
 <html>
 <head>
- <link href="dhtml/css/ecalc_main.css" type="text/css" rel="stylesheet">
- <title> سافتویرمحاسب</title>
- <link href="dhtml/css/ecalc.login.css" type="text/css" rel="stylesheet">
- <link href="jQuery/css/custom-theme/jquery-ui-1.11.4.smoothness.css" type="text/css" rel="stylesheet">
- <script src="jQuery/js/jquery-1.11.2.min.js"></script>
- <script src="jQuery/js/jquery-ui-1.11.2.min.js"></script>
- <script src="dhtml/js/ecalc_main.js"></script>
+<?php include 'headFile.php'; ?>
  <script>
  $(document).ready(function() {
 	 $("#LogOut").click(function() {
@@ -53,7 +49,16 @@ else if( $tag == 'addExp') { goto addExp;}
 		 clearTxtBoxs();
 	 });
 	 $( "#txtDate" ).datepicker({ minDate: -20, maxDate: "+1M +15D", dateFormat: "yy/m/d" });
+	 //on changed of selType
+	 $('#selType').change(function() {
+		 if($('#selType').val() == '999'){
+			 showPrompt();
+		 }
+		 else{return false;}
+		 
+	 });
  });
+ 
  </script>
 </head>
 
@@ -90,7 +95,7 @@ else if( $tag == 'addExp') { goto addExp;}
   </table>
  </div>
 </div>
-
+<div id="addNItem"></div>
 </body>
 </html>
 <?php exit(); ?>
@@ -120,6 +125,49 @@ include "ecalc_db.php";
  $execQ = $dbclas -> insertInto($tblName, $tblFields, $valOfInsrt);
  echo $execQ;
  $execQ = $dbclas -> dbDisconnect();
+ exit();
 ?>
-<div id="messages"></div>
+
+<?php addNGrp: ?>
+<script>
+  $(document).ready(function() {
+	  $( "#txtDateCtg" ).datepicker({ minDate: -20, maxDate: "+1M +15D", dateFormat: "yy/m/d" });
+	  //handle the click of add records
+	  $('#eSaveCtg').click(function() { addCtg(); });
+  });
+</script>
+<div dir="rtl">
+ <table>
+  <tr>
+   <td>نام کتگوری:</td><td><input type="text" id="txtCtg" value=""></td>
+  </tr>
+  <tr>
+   <td>تاریخ:</td><td><input type="text" id="txtDateCtg" value="<?php echo date('yy/m/d'); ?>" size="10"></td>
+  </tr>
+  <tr><td colspan="2"><div id="buttons" dir="ltr"><div id="eSaveCtg">ذخیره</div></div></td></tr>
+ </table>
+</div>
+<?php 
+exit(); 
+
+//
+insCtg:
+include "ecalc_db.php";
+// connect to database
+ $dbclas = new dbHandle();
+ $execQ = $dbclas -> dbConnect();
+ // query to insert the data from from
+ $tblName = 'CATEGORY';
+ $tblFields = 'CATEGORY, INSERTED_BY, INSERTED_DATE';
+ $valOfInsrt = "('".$_POST['ctgName']."','".$_SESSION['user']."','".$_POST['sdate']."')";
+		 
+ //$execQ = $dbclas -> dbConnect();
+ $execQ = $dbclas -> insertInto($tblName, $tblFields, $valOfInsrt);
+ echo $execQ;
+ $execQ = $dbclas -> dbDisconnect();
+ exit();
+?>
+
+
+
 
