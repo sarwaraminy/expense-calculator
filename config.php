@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------------------
 $servername = "localhost";
 $username = "root";
-$password = "aaAA11!!";
+$password = "";
 $dbname   = "ecalc";
 
 // Create connection

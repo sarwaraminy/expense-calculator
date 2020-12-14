@@ -45,12 +45,15 @@ else if( $tag == 'insCtg') { goto insCtg;}
 	 });
 	 //handle the click of add records
 	 $('#eSave').click(function() {
+		
 		 execAddRec();
 		 clearTxtBoxs();
 	 });
 	 $( "#txtDate" ).datepicker({ minDate: -20, maxDate: "+1M +15D", dateFormat: "yy/m/d" });
+	 
 	 //on changed of selType
 	 $('#selType').change(function() {
+		 
 		 if($('#selType').val() == '999'){
 			 showPrompt();
 		 }
@@ -60,42 +63,100 @@ else if( $tag == 'insCtg') { goto insCtg;}
  });
  
  </script>
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+ 
 </head>
 
 <body>
-<div id="messages"></div>	 
-<div class="addExp">   
-  <div>
-  <table id="addItem">
-    <tr><td><h2>ازدیاد جنس</h2></td><td colspan="12"><div id="buttons" class="top left"><div id="LogOut">خروج</div></div></td></tr>
-    <tr><td>اسم جنس</><td>توضیحات</td><td>نوع جنس</td><td>قیمت</td><td>تعداد جنس</td><td>قیمت مجموعی</td><td>مصرف توسط</td><td>تاریخ</td><td></td></tr>
-	<tr>
-	  <td><input type="text" id="txtAName" value="" size="10"></td>
-	  <td><textarea id="arDesc" rows="4" cols="15"></textarea></td>
-	  <td>
-	   <select id="selType">
-	     <option value="-1">لطفاَ یک نوع جنس را انتخاب کنید</option>
-	     <option value="999">ازدیاد نوع جنس....</option>
-	   </select>
-	  </td>
-	  <td><input type="text" id="txtPrice" value="1" size="7" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"></td>
-	  <td><input type="text" id="txtNumOf" value="1" size="7" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"></td>
-	  <td><input type="text" id="txtTotal" value="" size="7" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"></td>
-	  <td><input type="text" id="txtSpendBy" value="" size="10"></td>
-	  <td><input type="text" id="txtDate" value="<?php echo date('yy/m/d'); ?>" size="10"></td>
-	  <td>
-	   <div id="buttons" dir="ltr">
-        <div id="eclear">پاک</div>
-        <div id="eSave">ذخیره</div>
-        </div>
-	  </td>
-	</tr>
-	<tr><td colspan="10"><hr></td></tr>
-	<tr><td><h2>راپور مصارف</h2></td></tr>
-  </table>
- </div>
+		 
+<div class="container" style = "border:1px solid red;">
+	<div id="messages"></div>
+		<h2>ازدیاد جنس</h2>
+		<div id="buttons" class="top left">
+			<div id="LogOut">خروج</div>
+			<div id="eclear">پاک</div>
+			<div id="eSave">ذخیره</div>
+		</div>
+        <form>
+		<div class="form-group">
+   			<label for="txtAName">اسم جنس</label>
+    		<input type="text" class="form-control" id="txtAName" placeholder="اسم جنس را وارد کنید">
+    		
+  		</div>
+  		<div class="form-group">
+   			 <label for="arDesc">توضیحات</label>
+    		<input type="text" class="form-control" id="arDesc" placeholder="توضیحات را در مود جنس بنویسید">
+  		</div>
+  		<div class="form-group">
+		     <label for="selType">نوع جنس</label>
+			 <select class="form-control" id="selType">
+				<option value="-1">لطفاَ یک نوع جنس را انتخاب کنید</option>
+				<option value="999">ازدیاد نوع جنس....</option>
+			</select>
+  		</div>
+		  <div class="form-group">
+   			 <label for="txtPrice">قیمت</label>
+    		<input type="text" class="form-control" id="txtPrice" >
+		  </div>
+		  <div class="form-group">
+   			 <label for="txtNumOf">تعداد</label>
+    		<input type="text" class="form-control" id="txtNumOf" >
+		  </div>
+		  <div class="form-group">
+   			 <label for="txtTotal">قیمت مجموعی</label>
+    		<input type="text" class="form-control" id="txtTotal" >
+		  </div>
+		  <div class="form-group">
+   			 <label for="txtSpendBy">مصرف توسط</label>
+    		<input type="text" class="form-control" id="txtSpendBy" >
+		  </div>
+		  <div class="form-group">
+   			 <label for="txtDate">تاریخ</label>
+    		<input type="text" class="form-control" id="txtDate" value="<?php echo date('yy/m/d'); ?>" >
+		  </div>
+		  
+		  <button id="eSave"  class="btn btn-primary">‌ذخیره</button>
+		</form>
+
+		
 </div>
-<div id="addNItem"></div>
+	<div class="container" style = "border:1px solid red;">
+
+	
+
+	<?php
+
+		$servername = "localhost";
+		$username = "root";
+		$password = "";
+		$dbname = "ecalc";
+
+		// Create connection
+		$conn = new mysqli($servername, $username, $password, $dbname);
+		// Check connection
+		if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+		}
+
+		$sql = "SELECT * FROM homespend";
+		$result = $conn->query($sql);
+
+		if ($result->num_rows > 0) {
+			echo "<table class='table'><tr><th>ID</th><th>Name</th><th>Description</th><th>Category</th><th>Price</th><th>Number of</th><th>Total Price</th><th>Spend By</th></tr>";
+			// output data of each row
+			while($row = $result->fetch_assoc()) {
+			echo "<tr><td>".$row["ID_NO"]."</td><td>". $row["THINGS_NAME"]."</td><td>". $row["DESCRIPTION"]."</td><td>". $row["CATEGORY"]."</td><td>". $row["PRICE"]."</td><td>". $row["NUMBER_OF"]."</td><td>". $row["TOTAL_PRICE"]. "</td><td>".$row["SPEND_BY"]."</td></tr>";
+			}
+			echo "</table>";
+		} else {
+			echo "0 results";
+		}
+		
+
+	?>
+
+
+</div>
 </body>
 </html>
 <?php exit(); ?>
