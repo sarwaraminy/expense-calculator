@@ -1,5 +1,6 @@
 <?php
 session_start(); //start session.
+include "ecalc_db.php"; // include our database connection
 
 if(!isset($_SESSION['user']))
 {
@@ -75,6 +76,18 @@ else if( $tag == 'insCtg') { goto insCtg;}
 	  <td>
 	   <select id="selType">
 	     <option value="-1">لطفاَ یک نوع جنس را انتخاب کنید</option>
+		 <?php //now print the category value
+         // connect to database
+         $dbclas = new dbHandle();
+		 $execQ = $dbclas -> dbConnect();
+		 $salQ = "SELECT * FROM CATEGORY";
+		 $execQ = $dbclas -> selectFreeRun($salQ);
+		 while($row = $execQ -> fetch_assoc()){
+			echo '<option value="'.$row['CATEGORY'].'">'.$row['CATEGORY'].'</option>';
+		 }
+		 //close the connection
+		 $execQ = $dbclas -> dbDisconnect();
+		 ?>
 	     <option value="999">ازدیاد نوع جنس....</option>
 	   </select>
 	  </td>
@@ -95,6 +108,28 @@ else if( $tag == 'insCtg') { goto insCtg;}
   </table>
  </div>
 </div>
+<?php //this part used for Reporting ?>
+<div id="ecalRpt">
+ <table width="100%"><?php //titles table ?>
+  <tr><td><b><u>اسم جنس</b></u></td><td><b><u>دلیل مصرف</b></u></td><td><b><u>کتگوری</b></u></td><td><b><u>قیمت</b></u></td><td><b><u>تعداد</b></u></td>
+  <td><b><u>قیمت مجموعی</b></u></td><td><b><u>مصرف توسط</b></u></td>
+  <td><b><u>ذخیر توسط</b></u></td><td><b><u>تاریخ</b></u></td></tr>
+  <tr></tr>
+  <?php
+  $dbclas = new dbHandle();
+  $execQ = $dbclas -> dbConnect();
+  $execQ = $dbclas -> selectAll('HOMESPEND');
+  while($row = $execQ -> fetch_assoc()){
+	echo '<tr><td>'.$row['THINGS_NAME'].'</td><td>'.$row['DESCRIPTION'].'</td><td>'.$row['CATEGORY'].'</td><td>'.$row['PRICE'].'</td><td>'.
+	$row['NUMBER_OF'].'</td><td>'.$row['TOTAL_PRICE'].'</td><td>'.$row['SPEND_BY'].'</td><td>'.$row['INSERTED_BY'].'</td><td>'.
+	$row['INSERT_DATE'].'</td></tr>';
+  }
+  //close the connection
+  $execQ = $dbclas -> dbDisconnect();
+  ?>
+ </table>
+</div>
+<?php //this div is used for our add dialog?>
 <div id="addNItem"></div>
 </body>
 </html>
@@ -102,7 +137,6 @@ else if( $tag == 'insCtg') { goto insCtg;}
 
 <?php 
 addExp: 
-include "ecalc_db.php";
 // connect to database
  $dbclas = new dbHandle();
  $execQ = $dbclas -> dbConnect();
@@ -152,7 +186,6 @@ exit();
 
 //
 insCtg:
-include "ecalc_db.php";
 // connect to database
  $dbclas = new dbHandle();
  $execQ = $dbclas -> dbConnect();
